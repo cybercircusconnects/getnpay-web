@@ -72,7 +72,7 @@ export function SocialLoginButton({
       )}
     >
       {config.icon}
-      <span className="text-sm font-semibold text-gray-800">{config.text}</span>
+      <span className="text-sm font-semibold text-foreground">{config.text}</span>
     </Button>
   )
 }

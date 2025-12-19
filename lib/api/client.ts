@@ -1,4 +1,5 @@
 import { ENV } from '../config/env';
+import { cookies } from '../utils/cookies';
 
 export interface ApiError {
   status: number;
@@ -65,15 +66,15 @@ export class ApiClient {
 
   private getToken(): string | null {
     if (typeof window === 'undefined') return null;
-    return localStorage.getItem('accessToken');
+    return cookies.get('accessToken');
   }
 
   setToken(token: string | null): void {
     if (typeof window === 'undefined') return;
     if (token) {
-      localStorage.setItem('accessToken', token);
+      cookies.set('accessToken', token, 7);
     } else {
-      localStorage.removeItem('accessToken');
+      cookies.remove('accessToken');
     }
   }
 

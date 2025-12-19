@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { authApi, type User } from "@/lib/api/auth"
 import { apiClient } from "@/lib/api/client"
 import { getErrorMessage } from "@/lib/api/auth"
+import { cookies } from "@/lib/utils/cookies"
 
 interface AuthContextType {
   user: User | null
@@ -27,25 +28,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const token = localStorage.getItem("accessToken")
+        const token = cookies.get("accessToken")
         if (token) {
-          const storedUser = localStorage.getItem("user")
+          const storedUser = cookies.get("user")
           if (storedUser) {
             setUserState(JSON.parse(storedUser))
           } else {
             try {
               const currentUser = await authApi.getCurrentUser()
               setUserState(currentUser)
-              localStorage.setItem("user", JSON.stringify(currentUser))
+              cookies.set("user", JSON.stringify(currentUser), 7)
             } catch {
-              localStorage.removeItem("accessToken")
-              localStorage.removeItem("user")
+              cookies.remove("accessToken")
+              cookies.remove("user")
             }
           }
         }
       } catch {
-        localStorage.removeItem("accessToken")
-        localStorage.removeItem("user")
+        cookies.remove("accessToken")
+        cookies.remove("user")
       } finally {
         setIsLoading(false)
       }
@@ -65,9 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const setUser = (newUser: User | null) => {
     setUserState(newUser)
     if (newUser) {
-      localStorage.setItem("user", JSON.stringify(newUser))
+      cookies.set("user", JSON.stringify(newUser), 7)
     } else {
-      localStorage.removeItem("user")
+      cookies.remove("user")
     }
   }
 
@@ -110,8 +111,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUserState(null)
     apiClient.setToken(null)
-    localStorage.removeItem("accessToken")
-    localStorage.removeItem("user")
+    cookies.remove("accessToken")
+    cookies.remove("user")
     router.push("/login")
   }
 

@@ -169,7 +169,7 @@ export function SignInScreen() {
                 <Check className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-primary-foreground pointer-events-none" />
               )}
             </div>
-            <Label htmlFor="rememberMe" className="cursor-pointer text-sm text-gray-700">
+            <Label htmlFor="rememberMe" className="cursor-pointer text-sm text-foreground">
               Remember me
             </Label>
           </div>

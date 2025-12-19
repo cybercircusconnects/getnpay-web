@@ -92,7 +92,7 @@ export function SignUpScreen() {
   return (
     <div className="w-full space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-black">Sign-Up to continue</h1>
+        <h1 className="text-2xl font-bold text-foreground">Sign-Up to continue</h1>
         <AuthSwitchLink
           question="Already have an account?"
           linkText="Sign-In here"
@@ -155,7 +155,7 @@ export function SignUpScreen() {
 
         <Button
           type="submit"
-          className="w-full cursor-pointer bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed"
+          className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
           disabled={isLoading || isGoogleLoading}
         >
           {isLoading ? (
@@ -181,7 +181,7 @@ export function SignUpScreen() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-500">OR</span>
+          <span className="bg-background px-2 text-muted-foreground">OR</span>
         </div>
       </div>
 

@@ -105,7 +105,7 @@ export function SignInScreen() {
   return (
     <div className="w-full space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-black">Sign-In to continue</h1>
+        <h1 className="text-2xl font-bold text-foreground">Sign-In to continue</h1>
         <AuthSwitchLink
           question="Don't have an account?"
           linkText="Sign-Up here"
@@ -162,11 +162,11 @@ export function SignInScreen() {
                 className={`h-5 w-5 cursor-pointer rounded border-2 appearance-none ${
                   rememberMe
                     ? "border-green-600 bg-green-600"
-                    : "border-gray-300 bg-white"
+                    : "border-gray-300 bg-background"
                 } focus:ring-green-600`}
               />
               {rememberMe && (
-                <Check className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white pointer-events-none" />
+                <Check className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-primary-foreground pointer-events-none" />
               )}
             </div>
             <Label htmlFor="rememberMe" className="cursor-pointer text-sm text-gray-700">
@@ -184,7 +184,7 @@ export function SignInScreen() {
 
         <Button
           type="submit"
-          className="w-full cursor-pointer bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed"
+          className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
           disabled={isLoading || isGoogleLoading}
         >
           {isLoading ? (
@@ -203,7 +203,7 @@ export function SignInScreen() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-500">OR</span>
+          <span className="bg-background px-2 text-muted-foreground">OR</span>
         </div>
       </div>
 

@@ -61,7 +61,7 @@ export function ForgotPasswordScreen() {
           <User className="h-12 w-12 text-gray-400" />
         </div>
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold text-black">Forgot password</h1>
+          <h1 className="text-2xl font-bold text-foreground">Forgot password</h1>
           <p className="text-sm text-gray-500">
             Enter your email to reset your password
           </p>
@@ -93,7 +93,7 @@ export function ForgotPasswordScreen() {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed"
+            className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             {isLoading ? (

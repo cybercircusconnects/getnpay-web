@@ -98,13 +98,13 @@ export function VerifyEmailScreen() {
           <Mail className="h-12 w-12 text-gray-400" />
         </div>
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold text-black">Verify account</h1>
+          <h1 className="text-2xl font-bold text-foreground">Verify account</h1>
           <p className="text-sm text-gray-500">
             Please input the 6-digit code that we have sent to your email.
           </p>
         </div>
         <div className="flex items-center justify-center">
-          <span className="text-sm text-black">{maskedEmail}</span>
+          <span className="text-sm text-foreground">{maskedEmail}</span>
           <button
             type="button"
             onClick={() => router.back()}
@@ -125,7 +125,7 @@ export function VerifyEmailScreen() {
 
         <Button
           type="submit"
-          className="w-full cursor-pointer bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed"
+          className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
           disabled={code.length !== 6 || isLoading}
         >
           {isLoading ? (

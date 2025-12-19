@@ -52,7 +52,7 @@ export function EmailLoginScreen() {
   return (
     <div className="w-full space-y-8">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-black">Sign in with Email</h1>
+        <h1 className="text-2xl font-bold text-foreground">Sign in with Email</h1>
         <p className="text-sm text-gray-500">
           Enter your email address and we'll send you a verification code
         </p>
@@ -76,7 +76,7 @@ export function EmailLoginScreen() {
 
         <Button
           type="submit"
-          className="w-full cursor-pointer bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed"
+          className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           {isLoading ? (

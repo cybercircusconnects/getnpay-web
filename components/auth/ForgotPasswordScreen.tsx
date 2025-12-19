@@ -4,19 +4,13 @@ import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authApi, isEmailVerificationError, getErrorMessage } from "@/lib/api/auth"
+import { forgotPasswordSchema, type ForgotPasswordFormValues } from "@/lib/validations"
 import { toast } from "sonner"
 import { Mail, User, Loader2 } from "lucide-react"
-
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Please provide a valid email address"),
-})
-
-type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
 
 export function ForgotPasswordScreen() {
   const [isLoading, setIsLoading] = useState(false)

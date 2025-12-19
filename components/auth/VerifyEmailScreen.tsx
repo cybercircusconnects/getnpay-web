@@ -4,21 +4,15 @@ import { useState, useEffect, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { OTPInput } from "@/components/auth/OTPInput"
 import { authApi, getErrorMessage } from "@/lib/api/auth"
 import { apiClient } from "@/lib/api/client"
 import { useAuth } from "@/context/auth-context"
+import { verifyEmailSchema, type VerifyEmailFormValues } from "@/lib/validations"
 import { maskEmail } from "@/lib/utils/email"
 import { toast } from "sonner"
 import { Mail, Loader2 } from "lucide-react"
-
-const verifyEmailSchema = z.object({
-  code: z.string().length(6, "Code must be 6 digits"),
-})
-
-type VerifyEmailFormValues = z.infer<typeof verifyEmailSchema>
 
 export function VerifyEmailScreen() {
   const [countdown, setCountdown] = useState(0)

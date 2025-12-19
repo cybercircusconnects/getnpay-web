@@ -4,19 +4,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authApi, getErrorMessage } from "@/lib/api/auth"
+import { emailLoginSchema, type EmailLoginFormValues } from "@/lib/validations"
 import { toast } from "sonner"
 import { Mail, Loader2 } from "lucide-react"
-
-const emailLoginSchema = z.object({
-  email: z.string().email("Please provide a valid email address"),
-})
-
-type EmailLoginFormValues = z.infer<typeof emailLoginSchema>
 
 export function EmailLoginScreen() {
   const router = useRouter()

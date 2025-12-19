@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,17 +12,10 @@ import { AuthSwitchLink } from "@/components/auth/AuthSwitchLink"
 import { SocialLoginButton } from "@/components/auth/SocialLoginButton"
 import { authApi, getErrorMessage } from "@/lib/api/auth"
 import { apiClient } from "@/lib/api/client"
+import { signUpSchema, type SignUpFormValues } from "@/lib/validations"
 import { toast } from "sonner"
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react"
 import { initializeGoogleAuth } from "@/lib/utils/google-auth"
-
-const signUpSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please provide a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-})
-
-type SignUpFormValues = z.infer<typeof signUpSchema>
 
 export function SignUpScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)

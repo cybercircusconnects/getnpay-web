@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,17 +11,10 @@ import { OTPInput } from "@/components/auth/OTPInput"
 import { authApi, getErrorMessage } from "@/lib/api/auth"
 import { apiClient } from "@/lib/api/client"
 import { useAuth } from "@/context/auth-context"
+import { verifyEmailOtpSchema, type VerifyEmailOtpFormValues } from "@/lib/validations"
 import { maskEmail } from "@/lib/utils/email"
 import { toast } from "sonner"
 import { Mail, User, Loader2 } from "lucide-react"
-
-const verifyEmailOtpSchema = (isNewUser: boolean) =>
-  z.object({
-    code: z.string().length(6, "Code must be 6 digits"),
-    name: isNewUser ? z.string().min(2, "Name must be at least 2 characters") : z.string().optional(),
-  })
-
-type VerifyEmailOtpFormValues = z.infer<ReturnType<typeof verifyEmailOtpSchema>>
 
 export function VerifyEmailOtpScreen() {
   const [countdown, setCountdown] = useState(0)

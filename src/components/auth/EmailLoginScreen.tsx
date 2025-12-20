@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { OutlinedInput } from "@/components/ui/outlined-input"
 import { authApi, getErrorMessage } from "@/lib/api/auth"
 import { emailLoginSchema, type EmailLoginFormValues } from "@/lib/validations"
 import { toast } from "sonner"
@@ -52,20 +51,18 @@ export function EmailLoginScreen() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              className="pl-10"
-              {...register("email")}
-            />
-          </div>
-          {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <OutlinedInput
+            id="email"
+            type="email"
+            label="Email"
+            placeholder="Enter your email"
+            error={!!errors.email}
+            leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
+            {...register("email")}
+          />
+          {errors.email && <p className="mb-2 mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         <Button

@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider 
           attribute="class" 
           defaultTheme="light" 

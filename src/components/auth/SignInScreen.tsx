@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { OutlinedInput } from "@/components/ui/outlined-input"
 import { Label } from "@/components/ui/label"
 import { AuthSwitchLink } from "@/components/auth/AuthSwitchLink"
 import { SocialLoginButton } from "@/components/auth/SocialLoginButton"
@@ -105,42 +105,41 @@ export function SignInScreen() {
         />
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              className="pl-10"
-              {...register("email")}
-            />
-          </div>
-          {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <OutlinedInput
+          value={watch("email")}
+            id="email"
+            type="email"
+            label="Email"
+            placeholder="Enter your email"
+            error={!!errors.email}
+            leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
+            {...register("email")}
+          />
+          {errors.email && <p className="mb-2 mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-            <Input
-              id="password"
-              type={isPasswordVisible ? "text" : "password"}
-              placeholder="Enter your password"
-              className="pl-10 pr-10"
-              {...register("password")}
-            />
-            <button
-              type="button"
-              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
-            >
-              {isPasswordVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-            </button>
-          </div>
-          {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
+        <div>
+          <OutlinedInput
+            id="password"
+            type={isPasswordVisible ? "text" : "password"}
+            label="Password"
+            placeholder="Enter your password"
+            error={!!errors.password}
+            leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
+            rightIcon={
+              <button
+                type="button"
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                className="cursor-pointer text-gray-400 hover:text-gray-600"
+              >
+                {isPasswordVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            }
+            {...register("password")}
+          />
+          {errors.password && <p className="mb-2 mt-1 text-xs text-red-500">{errors.password.message}</p>}
         </div>
 
         <div className="flex items-center justify-between">

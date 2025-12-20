@@ -87,7 +87,7 @@ export function ForgotPasswordScreen() {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed"
+            className="w-full cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             {isLoading ? (

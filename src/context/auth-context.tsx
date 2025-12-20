@@ -55,11 +55,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    const publicPaths = ["/login", "/signup", "/forgot-password", "/verify-email", "/email-login", "/verify-email-otp", "/success"]
+    const publicPaths = ["/signin", "/signup", "/forgot-password", "/verify-email", "/email-login", "/verify-email-otp", "/success"]
     const isPublicPath = publicPaths.some(path => pathname?.startsWith(path))
     
     if (!isLoading && !user && !isPublicPath && pathname !== "/") {
-      router.push("/login")
+      router.push("/signin")
     }
   }, [user, isLoading, pathname, router])
 
@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     apiClient.setToken(null)
     cookies.remove("accessToken")
     cookies.remove("user")
-    router.push("/login")
+    router.push("/signin")
   }
 
   return (

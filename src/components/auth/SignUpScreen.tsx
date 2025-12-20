@@ -87,7 +87,7 @@ export function SignUpScreen() {
         <AuthSwitchLink
           question="Already have an account?"
           linkText="Sign-In here"
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/signin")}
         />
       </div>
 

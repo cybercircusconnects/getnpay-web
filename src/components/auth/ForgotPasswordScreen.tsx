@@ -105,7 +105,7 @@ export function ForgotPasswordScreen() {
         <span className="text-sm text-gray-500">Remember your password? </span>
         <button
           type="button"
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/signin")}
           className="cursor-pointer text-sm font-semibold text-green-600 hover:underline"
         >
           Sign-In here

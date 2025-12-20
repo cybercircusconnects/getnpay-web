@@ -75,7 +75,7 @@ export function VerifyEmailScreen() {
         router.push("/dashboard")
       } else {
         toast.success("Email verified. Sign in now")
-        router.push("/login")
+        router.push("/signin")
       }
     } catch (error) {
       const message = getErrorMessage(error, "Invalid OTP")

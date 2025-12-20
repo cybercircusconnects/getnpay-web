@@ -1,47 +1,80 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface OutlinedInputProps extends React.ComponentProps<"input"> {
-  label?: string
-  error?: boolean
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
+  label?: string;
+  error?: boolean;
+  touched?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  required?: boolean;
 }
 
 const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
-  ({ className, type, label, error, leftIcon, rightIcon, ...props }, ref) => {
-    const [isFocused, setIsFocused] = React.useState(false)
-    const [hasValue, setHasValue] = React.useState(false)
-    const inputRef = React.useRef<HTMLInputElement>(null)
+  (
+    {
+      className,
+      type,
+      label,
+      error,
+      touched = false,
+      leftIcon,
+      rightIcon,
+      required = false,
+      onChange,
+      onBlur,
+      onFocus,
+      ...props
+    },
+    ref
+  ) => {
+    const [isFocused, setIsFocused] = React.useState(false);
+    const [hasValue, setHasValue] = React.useState(false);
+    const [localTouched, setLocalTouched] = React.useState(false);
+    const [internalError, setInternalError] = React.useState(false);
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
-    React.useImperativeHandle(ref, () => inputRef.current!)
+    React.useImperativeHandle(ref, () => inputRef.current!);
 
-    React.useEffect(() => {
-      if (inputRef.current) {
-        setHasValue(inputRef.current.value.length > 0)
-      }
-    }, [props.value, props.defaultValue])
-
-    const shouldFloatLabel = isFocused || hasValue
+    const shouldFloatLabel = isFocused || hasValue;
+    const isFieldTouched = touched || localTouched;
+    const hasError = error || internalError;
+    const shouldShowError = isFieldTouched && hasError;
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true)
-      props.onFocus?.(e)
-    }
+      setIsFocused(true);
+      onFocus?.(e);
+    };
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false)
-      const inputValue = e.target.value || ""
-      setHasValue(inputValue.trim().length > 0)
-      props.onBlur?.(e)
-    }
+      setIsFocused(false);
+      setLocalTouched(true);
+
+      const inputValue = e.target.value || "";
+      const trimmedValue = inputValue.trim();
+      setHasValue(trimmedValue.length > 0);
+
+      // Check if required and empty
+      if (required && trimmedValue.length === 0) {
+        setInternalError(true);
+      } else {
+        setInternalError(false);
+      }
+
+      onBlur?.(e);
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setHasValue(e.target.value.length > 0)
-      props.onChange?.(e)
-    }
+      const value = e.target.value;
+      setHasValue(value.length > 0);
+      if (required && value.trim().length > 0) {
+        setInternalError(false);
+      }
+
+      onChange?.(e);
+    };
 
     return (
       <div className="relative w-full">
@@ -50,22 +83,22 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
             {leftIcon}
           </div>
         )}
-        
+
         <input
           ref={inputRef}
           type={type}
           className={cn(
-            "h-12 w-full rounded-lg border-2 bg-background px-4 py-3 text-base outline-none transition-all duration-200",
+            "h-12 w-full rounded border bg-background px-4 py-3 text-base outline-none transition-all duration-200",
             "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
             "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
             "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
             leftIcon ? "pl-12" : "pl-4",
             rightIcon ? "pr-12" : "pr-4",
-            error
-              ? "border-red-500 focus:border-red-500"
+            shouldShowError
+              ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
               : isFocused
-              ? "border-green-600"
-              : "border-outline hover:border-green-600/70",
+              ? "border-green-600 focus:ring-2 focus:ring-green-600/20"
+              : "border-gray-300 hover:border-gray-400",
             !shouldFloatLabel && "placeholder:opacity-0",
             className
           )}
@@ -75,7 +108,7 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
           placeholder={shouldFloatLabel ? props.placeholder : ""}
           {...props}
         />
-        
+
         {label && (
           <label
             className={cn(
@@ -90,29 +123,33 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
                 : leftIcon
                 ? "left-12"
                 : "left-4",
-              error
+              shouldShowError
                 ? "text-red-500"
                 : isFocused
                 ? "text-green-600"
                 : shouldFloatLabel
                 ? "text-green-600"
-                : "text-muted-foreground"
+                : "text-gray-500"
             )}
           >
             {label}
           </label>
         )}
-        
+
         {rightIcon && (
           <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center">
             {rightIcon}
           </div>
         )}
+
+        {shouldShowError && internalError && required && (
+          <p className="mt-1 text-xs text-red-500">This field is required</p>
+        )}
       </div>
-    )
+    );
   }
-)
+);
 
-OutlinedInput.displayName = "OutlinedInput"
+OutlinedInput.displayName = "OutlinedInput";
 
-export { OutlinedInput }
+export { OutlinedInput };

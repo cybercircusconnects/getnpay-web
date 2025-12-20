@@ -94,8 +94,8 @@ export function SignUpScreen() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <OutlinedInput
-            id="name"
-            type="text"
+              id="name"
+              type="text"
             label="Name"
             placeholder="Enter your name"
             error={!!errors.name}
@@ -103,44 +103,44 @@ export function SignUpScreen() {
             required={true}
             errorMessage={touchedFields.name && errors.name ? errors.name.message : undefined}
             leftIcon={<User className="h-5 w-5 text-gray-400" />}
-            {...register("name")}
-          />
+              {...register("name")}
+            />
         </div>
 
         <div>
           <OutlinedInput
-            id="email"
-            type="email"
+              id="email"
+              type="email"
             label="Email"
-            placeholder="Enter your email"
+              placeholder="Enter your email"
             error={!!errors.email}
             touched={touchedFields.email}
             required={true}
             errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
-            {...register("email")}
-          />
+              {...register("email")}
+            />
         </div>
 
         <div>
           <OutlinedInput
-            id="password"
-            type={isPasswordVisible ? "text" : "password"}
+              id="password"
+              type={isPasswordVisible ? "text" : "password"}
             label="Password"
-            placeholder="Enter your password"
+              placeholder="Enter your password"
             error={!!errors.password}
             touched={touchedFields.password}
             required={true}
             errorMessage={touchedFields.password && errors.password ? errors.password.message : undefined}
             leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
             rightIcon={
-              <button
-                type="button"
-                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            <button
+              type="button"
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                 className="cursor-pointer text-gray-400 hover:text-gray-600"
-              >
-                {isPasswordVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
+            >
+              {isPasswordVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
             }
             {...register("password")}
           />

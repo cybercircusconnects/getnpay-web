@@ -54,17 +54,17 @@ export function EmailLoginScreen() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <OutlinedInput
-            id="email"
-            type="email"
+              id="email"
+              type="email"
             label="Email"
-            placeholder="Enter your email"
+              placeholder="Enter your email"
             error={!!errors.email}
             touched={touchedFields.email}
             required={true}
             errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
-            {...register("email")}
-          />
+              {...register("email")}
+            />
         </div>
 
         <Button

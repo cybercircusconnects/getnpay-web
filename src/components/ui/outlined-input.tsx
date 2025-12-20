@@ -7,6 +7,7 @@ interface OutlinedInputProps extends React.ComponentProps<"input"> {
   label?: string;
   error?: boolean;
   touched?: boolean;
+  errorMessage?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   required?: boolean;
@@ -20,6 +21,7 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
       label,
       error,
       touched = false,
+      errorMessage,
       leftIcon,
       rightIcon,
       required = false,
@@ -56,7 +58,6 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
       const trimmedValue = inputValue.trim();
       setHasValue(trimmedValue.length > 0);
 
-      // Check if required and empty
       if (required && trimmedValue.length === 0) {
         setInternalError(true);
       } else {
@@ -69,6 +70,7 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setHasValue(value.length > 0);
+
       if (required && value.trim().length > 0) {
         setInternalError(false);
       }
@@ -78,72 +80,79 @@ const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
 
     return (
       <div className="relative w-full">
-        {leftIcon && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-muted-foreground">
-            {leftIcon}
-          </div>
-        )}
-
-        <input
-          ref={inputRef}
-          type={type}
-          className={cn(
-            "h-12 w-full rounded border bg-background px-4 py-3 text-base outline-none transition-all duration-200",
-            "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
-            "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
-            "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-            leftIcon ? "pl-12" : "pl-4",
-            rightIcon ? "pr-12" : "pr-4",
-            shouldShowError
-              ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-              : isFocused
-              ? "border-green-600 focus:ring-2 focus:ring-green-600/20"
-              : "border-gray-300 hover:border-gray-400",
-            !shouldFloatLabel && "placeholder:opacity-0",
-            className
+        <div className="relative">
+          {leftIcon && (
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-muted-foreground flex items-center">
+              {leftIcon}
+            </div>
           )}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          placeholder={shouldFloatLabel ? props.placeholder : ""}
-          {...props}
-        />
 
-        {label && (
-          <label
+          <input
+            ref={inputRef}
+            type={type}
             className={cn(
-              "absolute pointer-events-none transition-all duration-200 select-none origin-left",
-              shouldFloatLabel
-                ? "top-0 -translate-y-1/2 text-xs px-2 bg-background z-10"
-                : "top-1/2 -translate-y-1/2 text-base",
-              shouldFloatLabel
-                ? leftIcon
-                  ? "left-10"
-                  : "left-3"
-                : leftIcon
-                ? "left-12"
-                : "left-4",
+              "h-11 w-full rounded border bg-background px-4 py-3 text-base outline-none transition-all duration-200",
+              "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
+              "file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
+              "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+              leftIcon ? "pl-12" : "pl-4",
+              rightIcon ? "pr-12" : "pr-4",
               shouldShowError
-                ? "text-red-500"
+                ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                 : isFocused
-                ? "text-green-600"
-                : shouldFloatLabel
-                ? "text-green-600"
-                : "text-gray-500"
+                ? "border-green-600 focus:ring-2 focus:ring-green-600/20"
+                : "border-gray-300 hover:border-gray-400",
+              !shouldFloatLabel && "placeholder:opacity-0",
+              className
             )}
-          >
-            {label}
-          </label>
-        )}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder={shouldFloatLabel ? props.placeholder : ""}
+            {...props}
+          />
 
-        {rightIcon && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center">
-            {rightIcon}
-          </div>
-        )}
+          {label && (
+            <label
+              className={cn(
+                "absolute pointer-events-none transition-all duration-200 select-none origin-left flex items-center",
+                shouldFloatLabel
+                  ? "top-0 -translate-y-1/2 text-xs px-2 bg-background z-10"
+                  : "top-1/2 -translate-y-1/2 text-base",
+                shouldFloatLabel
+                  ? leftIcon
+                    ? "left-10"
+                    : "left-3"
+                  : leftIcon
+                  ? "left-12"
+                  : "left-4",
+                shouldShowError
+                  ? "text-red-500"
+                  : isFocused
+                  ? "text-green-600"
+                  : shouldFloatLabel
+                  ? "text-green-600"
+                  : "text-gray-500"
+              )}
+            >
+              {label}
+            </label>
+          )}
 
-        {shouldShowError && internalError && required && (
-          <p className="mt-1 text-xs text-red-500">This field is required</p>
+          {rightIcon && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex items-center">
+              {rightIcon}
+            </div>
+          )}
+        </div>
+
+        {shouldShowError && (errorMessage || (internalError && required)) && (
+          <p className="mt-1 text-xs text-red-500">
+            {errorMessage ||
+              (internalError && required
+                ? `${label || "This field"} is required`
+                : "")}
+          </p>
         )}
       </div>
     );

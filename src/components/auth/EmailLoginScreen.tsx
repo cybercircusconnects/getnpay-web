@@ -18,7 +18,7 @@ export function EmailLoginScreen() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<EmailLoginFormValues>({
     resolver: zodResolver(emailLoginSchema),
     defaultValues: {
@@ -59,10 +59,12 @@ export function EmailLoginScreen() {
             label="Email"
             placeholder="Enter your email"
             error={!!errors.email}
+            touched={touchedFields.email}
+            required={true}
+            errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
             {...register("email")}
           />
-          {errors.email && <p className="mb-2 mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         <Button

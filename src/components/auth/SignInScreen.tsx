@@ -29,7 +29,7 @@ export function SignInScreen() {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -108,16 +108,18 @@ export function SignInScreen() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
           <OutlinedInput
-          value={watch("email")}
+            value={watch("email")}
             id="email"
             type="email"
             label="Email"
             placeholder="Enter your email"
             error={!!errors.email}
+            touched={touchedFields.email}
+            required={true}
+            errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
             {...register("email")}
           />
-          {errors.email && <p className="mb-2 mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -127,6 +129,9 @@ export function SignInScreen() {
             label="Password"
             placeholder="Enter your password"
             error={!!errors.password}
+            touched={touchedFields.password}
+            required={true}
+            errorMessage={touchedFields.password && errors.password ? errors.password.message : undefined}
             leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
             rightIcon={
               <button
@@ -139,7 +144,6 @@ export function SignInScreen() {
             }
             {...register("password")}
           />
-          {errors.password && <p className="mb-2 mt-1 text-xs text-red-500">{errors.password.message}</p>}
         </div>
 
         <div className="flex items-center justify-between">

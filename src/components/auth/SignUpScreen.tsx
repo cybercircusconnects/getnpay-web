@@ -26,7 +26,7 @@ export function SignUpScreen() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -99,10 +99,12 @@ export function SignUpScreen() {
             label="Name"
             placeholder="Enter your name"
             error={!!errors.name}
+            touched={touchedFields.name}
+            required={true}
+            errorMessage={touchedFields.name && errors.name ? errors.name.message : undefined}
             leftIcon={<User className="h-5 w-5 text-gray-400" />}
             {...register("name")}
           />
-          {errors.name && <p className="mb-2 mt-1 text-xs text-red-500">{errors.name.message}</p>}
         </div>
 
         <div>
@@ -112,10 +114,12 @@ export function SignUpScreen() {
             label="Email"
             placeholder="Enter your email"
             error={!!errors.email}
+            touched={touchedFields.email}
+            required={true}
+            errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
             {...register("email")}
           />
-          {errors.email && <p className="mb-2 mt-1 text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -125,6 +129,9 @@ export function SignUpScreen() {
             label="Password"
             placeholder="Enter your password"
             error={!!errors.password}
+            touched={touchedFields.password}
+            required={true}
+            errorMessage={touchedFields.password && errors.password ? errors.password.message : undefined}
             leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
             rightIcon={
               <button
@@ -137,7 +144,6 @@ export function SignUpScreen() {
             }
             {...register("password")}
           />
-          {errors.password && <p className="mb-2 mt-1 text-xs text-red-500">{errors.password.message}</p>}
         </div>
 
         <Button

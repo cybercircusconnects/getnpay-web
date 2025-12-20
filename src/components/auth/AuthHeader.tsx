@@ -8,9 +8,9 @@ export function AuthHeader() {
       <Image
         src="/assets/common/logo.png"
         alt="GetnPay Logo"
-        width={96}
-        height={96}
-        className="h-24 w-24 object-contain"
+        width={200}
+        height={200}
+        className="h-44 w-44 object-contain"
       />
     </div>
   )

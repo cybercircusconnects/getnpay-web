@@ -10,11 +10,27 @@ interface AuthWrapperProps {
 export function AuthWrapper({ children }: AuthWrapperProps) {
   return (
     <div className="flex min-h-screen">
-      <div className="hidden lg:flex lg:w-2/5 xl:w-2/5 items-center justify-center bg-primary">
+      <div 
+        className="hidden lg:flex lg:w-1/2 xl:w-1/2 items-center justify-center"
+        style={{
+          backgroundImage: 'url(/assets/common/background.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
         <AuthHeader />
       </div>
-      <div className="flex flex-1 flex-col lg:w-3/5 xl:w-3/5">
-        <div className="flex lg:hidden items-center justify-center bg-primary py-8">
+      <div className="flex flex-1 flex-col lg:w-1/2 xl:w-1/2">
+        <div 
+          className="flex lg:hidden items-center justify-center py-8"
+          style={{
+            backgroundImage: 'url(/assets/common/background.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
           <AuthHeader />
         </div>
         <div className="flex flex-1 items-center justify-center bg-background px-4 py-8">

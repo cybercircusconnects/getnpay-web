@@ -79,12 +79,12 @@ export function EmailLoginScreen() {
               Sending...
             </>
           ) : (
-            "Send Code"
+            "Proceed"
           )}
         </Button>
       </form>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-1">
         <span className="text-sm text-gray-500">Want to use password? </span>
         <button
           type="button"

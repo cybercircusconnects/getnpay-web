@@ -53,4 +53,3 @@ export const initializeGoogleAuth = (onSuccess: (idToken: string) => void, onErr
     onError(error instanceof Error ? error.message : "Failed to initialize Google Sign-In")
   }
 }
-

@@ -40,4 +40,3 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
     </div>
   )
 }
-

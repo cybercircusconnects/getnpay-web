@@ -3,4 +3,3 @@ export const ENV = {
   GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
   NODE_ENV: process.env.NODE_ENV || 'development',
 } as const;
-

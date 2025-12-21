@@ -4,4 +4,3 @@ export const maskEmail = (emailAddress: string): string => {
   const maskedLocal = localPart.slice(0, 3) + '*****';
   return `${maskedLocal}@${domain}`;
 };
-

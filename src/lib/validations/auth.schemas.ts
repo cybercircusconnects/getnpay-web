@@ -67,4 +67,3 @@ export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
 export type VerifyEmailFormValues = z.infer<typeof verifyEmailSchema>
 export type EmailLoginFormValues = z.infer<typeof emailLoginSchema>
 export type VerifyEmailOtpFormValues = z.infer<ReturnType<typeof verifyEmailOtpSchema>>
-

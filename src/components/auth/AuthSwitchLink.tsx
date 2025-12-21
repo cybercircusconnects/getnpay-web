@@ -20,4 +20,3 @@ export function AuthSwitchLink({ question, linkText, onClick }: AuthSwitchLinkPr
     </div>
   )
 }
-

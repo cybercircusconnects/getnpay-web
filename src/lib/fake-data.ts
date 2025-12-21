@@ -57,8 +57,154 @@
     region: string
     flag: string
   }
-  
-  
+
+  const firstNames = [
+    "James", "Mary", "John", "Patricia", "Robert", "Jennifer", "Michael", "Linda",
+    "William", "Elizabeth", "David", "Barbara", "Richard", "Susan", "Joseph", "Jessica",
+    "Thomas", "Sarah", "Christopher", "Karen", "Charles", "Nancy", "Daniel", "Lisa",
+    "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Donald", "Ashley",
+    "Emma", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia",
+    "Liam", "Noah", "Oliver", "Elijah", "Lucas", "Mason", "Ethan", "Alexander",
+    "Yuki", "Hiroshi", "Sakura", "Wei", "Ming", "Jin", "Raj", "Priya",
+    "Mohammed", "Fatima", "Ahmed", "Aisha", "Carlos", "Maria", "Pedro", "Ana",
+  ]
+
+  const lastNames = [
+    "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis",
+    "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas",
+    "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White",
+    "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker", "Young",
+    "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Tanaka",
+    "Yamamoto", "Chen", "Wang", "Kim", "Park", "Singh", "Sharma", "Ali",
+    "Hassan", "Fernandez", "Santos", "Reyes", "Cruz", "Morales", "Ortiz",
+  ]
+
+  const domains = ["gmail.com", "yahoo.com", "outlook.com", "company.com", "work.org", "email.net"]
+  const roles = ["Admin", "User", "Moderator", "Editor", "Viewer", "Manager", "Developer", "Designer"]
+  const statuses = ["Active", "Inactive", "Pending", "Suspended"]
+  const productCategories = ["Electronics", "Clothing", "Home & Garden", "Sports", "Books", "Toys", "Beauty", "Food"]
+  const productStatuses = ["In Stock", "Low Stock", "Out of Stock", "Discontinued"]
+  const shopStatuses = ["Active", "Pending Approval", "Suspended", "Closed"]
+  const industries = [
+    "Technology", "Healthcare", "Finance", "Retail", "Manufacturing", "Education", "Real Estate", "Entertainment",
+  ]
+  const companyStatuses = ["Active", "Inactive", "Acquired", "Startup"]
+
+  function randomItem<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
+
+  function randomNumber(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
+  function randomDate(start: Date, end: Date): Date {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+  }
+
+  function formatDate(date: Date): string {
+    return date.toISOString().split("T")[0]
+  }
+
+  function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount)
+  }
+
+  export function generateUsers(count = 500): User[] {
+    return Array.from({ length: count }, (_, i) => {
+      const firstName = randomItem(firstNames)
+      const lastName = randomItem(lastNames)
+      const name = `${firstName} ${lastName}`
+      const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${randomNumber(1, 999)}@${randomItem(domains)}`
+
+      return {
+        id: `user-${i + 1}`,
+        name,
+        email,
+        role: randomItem(roles),
+        status: randomItem(statuses),
+        joinDate: formatDate(randomDate(new Date(2020, 0, 1), new Date())),
+        avatar: `/placeholder.svg?height=40&width=40&query=avatar ${firstName}`,
+      }
+    })
+  }
+
+  const productAdjectives = ["Premium", "Deluxe", "Pro", "Ultra", "Essential", "Classic", "Modern", "Vintage"]
+  const productNouns = ["Widget", "Gadget", "Device", "Tool", "Kit", "Set", "System", "Pack"]
+
+  export function generateProducts(count = 300): Product[] {
+    return Array.from({ length: count }, (_, i) => {
+      const name = `${randomItem(productAdjectives)} ${randomItem(productNouns)} ${randomNumber(100, 999)}`
+      const price = randomNumber(9, 999) + 0.99
+      const category = randomItem(productCategories)
+
+      return {
+        id: `prod-${i + 1}`,
+        name,
+        category,
+        price,
+        priceFormatted: formatCurrency(price),
+        stock: randomNumber(0, 500),
+        sku: `SKU-${category.substring(0, 3).toUpperCase()}-${randomNumber(10000, 99999)}`,
+        status: randomItem(productStatuses),
+        image: `https://picsum.photos/400/400?random=${i + 1}`,
+      }
+    })
+  }
+
+  const shopPrefixes = ["Super", "Mega", "Elite", "Prime", "Best", "Top", "Quality", "Value"]
+  const shopSuffixes = ["Store", "Shop", "Market", "Outlet", "Emporium", "Bazaar", "Hub", "Center"]
+  const cities = [
+    "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego",
+    "Dallas", "London", "Paris", "Tokyo", "Sydney", "Berlin", "Toronto", "Mumbai", "Shanghai", "Dubai", "Singapore", "Seoul",
+  ]
+
+  export function generateShops(count = 100): Shop[] {
+    return Array.from({ length: count }, (_, i) => {
+      const owner = `${randomItem(firstNames)} ${randomItem(lastNames)}`
+      const revenue = randomNumber(10000, 5000000)
+
+      return {
+        id: `shop-${i + 1}`,
+        name: `${randomItem(shopPrefixes)} ${randomItem(shopSuffixes)}`,
+        owner,
+        location: randomItem(cities),
+        revenue,
+        revenueFormatted: formatCurrency(revenue),
+        status: randomItem(shopStatuses),
+        rating: Math.round((randomNumber(30, 50) / 10) * 10) / 10,
+        products: randomNumber(10, 500),
+      }
+    })
+  }
+
+  const companyPrefixes = ["Global", "Tech", "Innovative", "Future", "Next", "Smart", "Digital", "Dynamic"]
+  const companySuffixes = [
+    "Solutions", "Systems", "Industries", "Enterprises", "Corporation", "Group", "Holdings", "Partners",
+  ]
+  const countries = [
+    "United States", "United Kingdom", "Germany", "France", "Japan", "Canada", "Australia", "India",
+    "China", "Brazil", "Mexico", "Italy", "Spain", "South Korea", "Netherlands",
+  ]
+
+  export function generateCompanies(count = 50): Company[] {
+    return Array.from({ length: count }, (_, i) => {
+      const revenue = randomNumber(1000000, 500000000)
+
+      return {
+        id: `company-${i + 1}`,
+        name: `${randomItem(companyPrefixes)} ${randomItem(companySuffixes)}`,
+        industry: randomItem(industries),
+        employees: randomNumber(50, 50000),
+        revenue,
+        revenueFormatted: formatCurrency(revenue),
+        country: randomItem(countries),
+        status: randomItem(companyStatuses),
+        founded: randomNumber(1950, 2023),
+      }
+    })
+  }
+
   export const allCountries: Country[] = [
     {
       id: "AF",

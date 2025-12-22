@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,8 +30,13 @@ export function SignInScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const { setUser } = useAuth();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const {
     register,
@@ -62,7 +67,7 @@ export function SignInScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      
+
       if (!result.user.role) {
         router.push("/select-role");
       } else {
@@ -100,7 +105,7 @@ export function SignInScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      
+
       if (!result.user.role) {
         router.push("/select-role");
       } else {
@@ -254,18 +259,20 @@ export function SignInScreen() {
       </div>
 
       <div className="space-y-4">
-        <div ref={googleLoginRef} className="hidden">
-          <GoogleLogin
-            onSuccess={handleGoogleSignInSuccess}
-            onError={handleGoogleSignInError}
-            useOneTap={false}
-            theme="outline"
-            size="large"
-            text="signin_with"
-            shape="rectangular"
-            logo_alignment="left"
-          />
-        </div>
+        {isMounted && (
+          <div ref={googleLoginRef} className="hidden">
+            <GoogleLogin
+              onSuccess={handleGoogleSignInSuccess}
+              onError={handleGoogleSignInError}
+              useOneTap={false}
+              theme="outline"
+              size="large"
+              text="signin_with"
+              shape="rectangular"
+              logo_alignment="left"
+            />
+          </div>
+        )}
         <SocialLoginButton
           provider="google"
           onClick={handleGoogleSignIn}

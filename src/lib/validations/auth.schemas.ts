@@ -1,10 +1,10 @@
 import { z } from "zod"
+import { isValidPhoneNumber } from "libphonenumber-js"
 import {
   STRONG_PASSWORD_REGEX,
   OTP_CODE_REGEX,
   OTP_CODE_LENGTH,
   MIN_PASSWORD_LENGTH,
-  MIN_STRONG_PASSWORD_LENGTH,
   MIN_NAME_LENGTH,
   MAX_NAME_LENGTH,
 } from "@/lib/constants/auth.constants"
@@ -32,8 +32,25 @@ export const signUpSchema = z.object({
   phone: z.string()
     .min(1, "Phone number is required")
     .refine(
-      (val) => /^\+[1-9]\d{1,14}$/.test(val),
-      { message: "Please enter a valid phone number" }
+      (val) => {
+        if (!val || !val.startsWith("+")) {
+          return false;
+        }
+        try {
+          return isValidPhoneNumber(val);
+        } catch {
+          return false;
+        }
+      },
+      { message: "Please enter a valid phone number for the selected country" }
+    )
+    .refine(
+      (val) => {
+        if (!val) return false;
+        const phoneLength = val.replace(/\+/, "").length;
+        return phoneLength >= 7 && phoneLength <= 15;
+      },
+      { message: "Phone number must be 7-15 digits total" }
     ),
 })
 

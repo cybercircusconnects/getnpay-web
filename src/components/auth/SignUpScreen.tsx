@@ -14,6 +14,7 @@ import { authApi, getErrorMessage } from "@/lib/api/auth";
 import { apiClient } from "@/lib/api/client";
 import { signUpSchema, type SignUpFormValues } from "@/lib/validations";
 import { toast } from "sonner";
+import { isValidPhoneNumber } from "libphonenumber-js";
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
 import { initializeGoogleAuth } from "@/lib/utils/google-auth";
 
@@ -48,10 +49,19 @@ export function SignUpScreen() {
   const onSubmit = async (values: SignUpFormValues) => {
     setIsLoading(true);
     try {
-      if (!values.phone || !/^\+[1-9]\d{1,14}$/.test(values.phone)) {
+      if (!values.phone) {
         setError("phone", {
           type: "manual",
-          message: "Please enter a valid phone number",
+          message: "Phone number is required",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      if (!isValidPhoneNumber(values.phone)) {
+        setError("phone", {
+          type: "manual",
+          message: "Please enter a valid phone number for the selected country",
         });
         setIsLoading(false);
         return;

@@ -9,7 +9,8 @@ import { OutlinedInput } from "@/components/ui/outlined-input"
 import { authApi, isEmailVerificationError, getErrorMessage } from "@/lib/api/auth"
 import { forgotPasswordSchema, type ForgotPasswordFormValues } from "@/lib/validations"
 import { toast } from "sonner"
-import { Mail, User, Loader2 } from "lucide-react"
+import { Mail, User } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 export function ForgotPasswordScreen() {
   const [isLoading, setIsLoading] = useState(false)
@@ -87,14 +88,11 @@ export function ForgotPasswordScreen() {
               className="w-full cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                "Proceed"
-              )}
+            {isLoading ? (
+              <Spinner size="sm" className="text-white" />
+            ) : (
+              "Proceed"
+            )}
             </Button>
           </form>
         </>

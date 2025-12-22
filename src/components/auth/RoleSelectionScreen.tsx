@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { authApi, getErrorMessage } from "@/lib/api/auth";
 import { apiClient } from "@/lib/api/client";
 import { toast } from "sonner";
-import { ShoppingCart, Store, Check, Loader2 } from "lucide-react";
+import { ShoppingCart, Store, Check } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export function RoleSelectionScreen() {
   const [selectedRole, setSelectedRole] = useState<
@@ -155,10 +156,7 @@ export function RoleSelectionScreen() {
           className="w-full h-11 rounded cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
         >
           {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing...
-            </>
+            <Spinner size="sm" className="text-white" />
           ) : (
             "Proceed"
           )}

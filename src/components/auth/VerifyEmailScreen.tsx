@@ -12,7 +12,8 @@ import { useAuth } from "@/context/auth-context"
 import { verifyEmailSchema, type VerifyEmailFormValues } from "@/lib/validations"
 import { maskEmail } from "@/lib/utils/email"
 import { toast } from "sonner"
-import { Mail, Loader2 } from "lucide-react"
+import { Mail } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 export function VerifyEmailScreen() {
   const [countdown, setCountdown] = useState(0)
@@ -123,10 +124,7 @@ export function VerifyEmailScreen() {
           disabled={code.length !== 6 || isLoading}
         >
           {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Verifying...
-            </>
+            <Spinner size="sm" className="text-white" />
           ) : (
             "Verify"
           )}

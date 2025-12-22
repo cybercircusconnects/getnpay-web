@@ -9,7 +9,8 @@ import { OutlinedInput } from "@/components/ui/outlined-input";
 import { authApi, getErrorMessage } from "@/lib/api/auth";
 import { emailLoginSchema, type EmailLoginFormValues } from "@/lib/validations";
 import { toast } from "sonner";
-import { Mail, Loader2 } from "lucide-react";
+import { Mail } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 
 export function EmailLoginScreen() {
   const router = useRouter();
@@ -77,10 +78,7 @@ export function EmailLoginScreen() {
           disabled={isLoading}
         >
           {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Sending...
-            </>
+            <Spinner size="sm" className="text-white" />
           ) : (
             "Proceed"
           )}

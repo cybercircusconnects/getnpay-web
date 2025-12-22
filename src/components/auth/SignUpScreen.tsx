@@ -16,7 +16,8 @@ import { signUpSchema, type SignUpFormValues } from "@/lib/validations";
 import { ENV } from "@/lib/config/env";
 import { toast } from "sonner";
 import { isValidPhoneNumber } from "libphonenumber-js";
-import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
 import dynamic from "next/dynamic";
 
 const GoogleLogin = dynamic(
@@ -266,10 +267,7 @@ export function SignUpScreen() {
             disabled={isLoading || isGoogleLoading}
           >
             {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Registering...
-              </>
+              <Spinner size="sm" className="text-white" />
             ) : (
               "Sign Up"
             )}

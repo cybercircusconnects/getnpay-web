@@ -78,11 +78,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       "/email-login",
       "/verify-email-otp",
       "/success",
+      "/select-role",
     ];
     const isPublicPath = publicPaths.some((path) => pathname?.startsWith(path));
 
     if (!isLoading && !user && !isPublicPath && pathname !== "/") {
       router.push("/signin");
+    }
+
+    if (
+      !isLoading &&
+      user &&
+      !user.role &&
+      pathname !== "/select-role" &&
+      pathname !== "/verify-email-otp"
+    ) {
+      router.push("/select-role");
+    }
+
+    if (!isLoading && user && user.role && pathname === "/select-role") {
+      router.push("/dashboard");
     }
   }, [user, isLoading, pathname, router]);
 

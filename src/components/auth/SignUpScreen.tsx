@@ -85,10 +85,10 @@ export function SignUpScreen() {
       });
 
       apiClient.setToken(result.accessToken);
-      setUser(result.user);
       toast.success("Account created. Verify your email");
+      
       router.push(
-        `/verify-email?email=${encodeURIComponent(values.email)}&from=signup`
+        `/verify-email-otp?email=${encodeURIComponent(values.email)}&isNewUser=true&from=signup`
       );
     } catch (error) {
       const message = getErrorMessage(error, "Sign up failed");
@@ -113,7 +113,12 @@ export function SignUpScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      router.push("/dashboard");
+      
+      if (!result.user.role) {
+        router.push("/select-role");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (error) {
       toast.error(getErrorMessage(error, "Google sign in failed"));
     } finally {

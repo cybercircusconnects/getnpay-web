@@ -6,6 +6,7 @@ export interface User {
   name: string;
   profileImage?: string;
   isEmailVerified: boolean;
+  role: 'customer' | 'store_owner' | null;
 }
 
 export interface AuthResponse {
@@ -41,7 +42,6 @@ export interface VerifyEmailRequest {
 export interface VerifyEmailOtpRequest {
   email: string;
   code: string;
-  name?: string;
 }
 
 export interface RequestEmailOtpRequest {
@@ -55,6 +55,10 @@ export interface RequestEmailOtpResponse {
 
 export interface ResendCodeRequest {
   email: string;
+}
+
+export interface SelectRoleRequest {
+  role: 'customer' | 'store_owner';
 }
 
 export const authApi = {
@@ -92,6 +96,10 @@ export const authApi = {
 
   getCurrentUser: async (): Promise<User> => {
     return apiClient.get<User>('/app/auth/me');
+  },
+
+  selectRole: async (data: SelectRoleRequest): Promise<AuthResponse> => {
+    return apiClient.post<AuthResponse>('/app/auth/select-role', data);
   },
 };
 

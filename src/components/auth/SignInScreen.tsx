@@ -57,7 +57,12 @@ export function SignInScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      router.push("/dashboard");
+      
+      if (!result.user.role) {
+        router.push("/select-role");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (error) {
       if (isEmailVerificationError(error)) {
         router.push(
@@ -90,7 +95,12 @@ export function SignInScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      router.push("/dashboard");
+      
+      if (!result.user.role) {
+        router.push("/select-role");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (error) {
       toast.error(getErrorMessage(error, "Google sign in failed"));
     } finally {

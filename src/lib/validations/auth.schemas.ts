@@ -75,15 +75,6 @@ export const verifyEmailOtpSchema = (isNewUser: boolean) =>
       .min(1, "Verification code is required")
       .length(OTP_CODE_LENGTH, `Code must be ${OTP_CODE_LENGTH} digits`)
       .regex(OTP_CODE_REGEX, `Verification code must be ${OTP_CODE_LENGTH} digits`),
-    name: isNewUser
-      ? z.string()
-          .min(1, "Name is required for new users")
-          .min(MIN_NAME_LENGTH, `Name must be at least ${MIN_NAME_LENGTH} characters`)
-          .max(MAX_NAME_LENGTH, `Name must not exceed ${MAX_NAME_LENGTH} characters`)
-      : z.string()
-          .min(MIN_NAME_LENGTH, `Name must be at least ${MIN_NAME_LENGTH} characters`)
-          .max(MAX_NAME_LENGTH, `Name must not exceed ${MAX_NAME_LENGTH} characters`)
-          .optional(),
   })
 
 export type SignInFormValues = z.infer<typeof signInSchema>

@@ -92,39 +92,39 @@ export function VerifyEmailOtpScreen() {
   };
 
   return (
-    <div className="w-full space-y-8">
-      <div className="flex flex-col items-center space-y-4">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
-          <Mail className="h-12 w-12 text-gray-400" />
-        </div>
-        <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-bold text-foreground">
-            Verify your email
-          </h1>
-          <p className="text-sm text-gray-500">
-            Please input the 6-digit code that we have sent to your email.
-          </p>
-        </div>
-        <div className="flex items-center justify-center">
-          <span className="text-sm text-foreground">{maskedEmail}</span>
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="ml-2 cursor-pointer text-sm font-semibold text-green-600 hover:underline"
-          >
-            Not you?
-          </button>
-        </div>
+    <div className="w-full space-y-6">
+      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-100 mx-auto">
+        <Mail className="h-12 w-12 text-gray-400" />
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <OTPInput
-          value={code}
-          onChange={(value) => setValue("code", value)}
-          error={errors.code?.message}
-          disabled={isLoading}
-        />
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl font-bold text-foreground">
+          Verify your email
+        </h1>
+        <p className="text-sm text-gray-500">
+          Please input the 6-digit code that we have sent to your email.
+        </p>
+      </div>
 
+      <div className="flex items-center justify-center">
+        <span className="text-sm text-foreground">{maskedEmail}</span>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="ml-2 cursor-pointer text-sm font-semibold text-green-600 hover:underline"
+        >
+          Not you?
+        </button>
+      </div>
+
+      <OTPInput
+        value={code}
+        onChange={(value) => setValue("code", value)}
+        error={errors.code?.message}
+        disabled={isLoading}
+      />
+
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Button
           type="submit"
           className="w-full h-11 rounded cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"

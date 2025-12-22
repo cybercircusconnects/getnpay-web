@@ -34,7 +34,7 @@ export function RoleSelectionScreen() {
   };
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-bold text-foreground">Select Your Role</h1>
           <p className="text-sm text-muted-foreground">
@@ -42,7 +42,7 @@ export function RoleSelectionScreen() {
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <button
             type="button"
             onClick={() => setSelectedRole("customer")}

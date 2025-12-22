@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Button } from "@/components/ui/button"
-import { OutlinedInput } from "@/components/ui/outlined-input"
-import { authApi, getErrorMessage } from "@/lib/api/auth"
-import { emailLoginSchema, type EmailLoginFormValues } from "@/lib/validations"
-import { toast } from "sonner"
-import { Mail, Loader2 } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { OutlinedInput } from "@/components/ui/outlined-input";
+import { authApi, getErrorMessage } from "@/lib/api/auth";
+import { emailLoginSchema, type EmailLoginFormValues } from "@/lib/validations";
+import { toast } from "sonner";
+import { Mail, Loader2 } from "lucide-react";
 
 export function EmailLoginScreen() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -24,49 +24,53 @@ export function EmailLoginScreen() {
     defaultValues: {
       email: "",
     },
-  })
+  });
 
   const onSubmit = async (values: EmailLoginFormValues) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await authApi.requestEmailOtp({ email: values.email })
-      toast.success("OTP sent to your email")
+      const result = await authApi.requestEmailOtp({ email: values.email });
+      toast.success("OTP sent to your email");
       router.push(
-        `/verify-email-otp?email=${encodeURIComponent(values.email)}&isNewUser=${result.isNewUser}`
-      )
+        `/verify-email-otp?email=${encodeURIComponent(
+          values.email
+        )}&isNewUser=${result.isNewUser}`
+      );
     } catch (error) {
-      const message = getErrorMessage(error, "Failed to send OTP")
-      toast.error(message)
+      const message = getErrorMessage(error, "Failed to send OTP");
+      toast.error(message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-foreground">Sign in with Email</h1>
+        <h1 className="text-2xl font-bold text-foreground">
+          Sign in with Email
+        </h1>
         <p className="text-sm text-gray-500">
           Enter your email address and we'll send you a verification code
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <OutlinedInput
-              id="email"
-              type="email"
-            label="Email"
-              placeholder="Enter your email"
-            error={!!errors.email}
-            touched={touchedFields.email}
-            required={true}
-            errorMessage={touchedFields.email && errors.email ? errors.email.message : undefined}
-            leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
-              {...register("email")}
-            />
-        </div>
+      <OutlinedInput
+        id="email"
+        type="email"
+        label="Email"
+        placeholder="Enter your email"
+        error={!!errors.email}
+        touched={touchedFields.email}
+        required={true}
+        errorMessage={
+          touchedFields.email && errors.email ? errors.email.message : undefined
+        }
+        leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
+        {...register("email")}
+      />
 
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Button
           type="submit"
           className="w-full cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
@@ -94,5 +98,5 @@ export function EmailLoginScreen() {
         </button>
       </div>
     </div>
-  )
+  );
 }

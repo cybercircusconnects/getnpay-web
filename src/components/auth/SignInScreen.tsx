@@ -136,7 +136,7 @@ export function SignInScreen() {
   };
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-6">
       <div className="text-center space-y-2">
         <h1 className="text-2xl font-bold text-foreground">
           Sign-In to continue
@@ -148,58 +148,54 @@ export function SignInScreen() {
         />
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <OutlinedInput
-            value={watch("email")}
-            id="email"
-            type="email"
-            label="Email"
-            placeholder="Enter your email"
-            error={!!errors.email}
-            touched={touchedFields.email}
-            required={true}
-            errorMessage={
-              touchedFields.email && errors.email
-                ? errors.email.message
-                : undefined
-            }
-            leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
-            {...register("email")}
-          />
-        </div>
+      <div className="space-y-6">
+        <OutlinedInput
+          value={watch("email")}
+          id="email"
+          type="email"
+          label="Email"
+          placeholder="Enter your email"
+          error={!!errors.email}
+          touched={touchedFields.email}
+          required={true}
+          errorMessage={
+            touchedFields.email && errors.email
+              ? errors.email.message
+              : undefined
+          }
+          leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
+          {...register("email")}
+        />
 
-        <div>
-          <OutlinedInput
-            id="password"
-            type={isPasswordVisible ? "text" : "password"}
-            label="Password"
-            placeholder="Enter your password"
-            error={!!errors.password}
-            touched={touchedFields.password}
-            required={true}
-            errorMessage={
-              touchedFields.password && errors.password
-                ? errors.password.message
-                : undefined
-            }
-            leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
-            rightIcon={
-              <button
-                type="button"
-                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="cursor-pointer text-gray-400 hover:text-gray-600"
-              >
-                {isPasswordVisible ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
-              </button>
-            }
-            {...register("password")}
-          />
-        </div>
+        <OutlinedInput
+          id="password"
+          type={isPasswordVisible ? "text" : "password"}
+          label="Password"
+          placeholder="Enter your password"
+          error={!!errors.password}
+          touched={touchedFields.password}
+          required={true}
+          errorMessage={
+            touchedFields.password && errors.password
+              ? errors.password.message
+              : undefined
+          }
+          leftIcon={<Lock className="h-5 w-5 text-gray-400" />}
+          rightIcon={
+            <button
+              type="button"
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              className="cursor-pointer text-gray-400 hover:text-gray-600"
+            >
+              {isPasswordVisible ? (
+                <EyeOff className="h-5 w-5" />
+              ) : (
+                <Eye className="h-5 w-5" />
+              )}
+            </button>
+          }
+          {...register("password")}
+        />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -235,23 +231,25 @@ export function SignInScreen() {
           </button>
         </div>
 
-        <Button
-          type="submit"
-          className="w-full h-11 rounded cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
-          disabled={isLoading || isGoogleLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Signing in...
-            </>
-          ) : (
-            "Sign In"
-          )}
-        </Button>
-      </form>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Button
+            type="submit"
+            className="w-full h-11 rounded cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
+            disabled={isLoading || isGoogleLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              "Sign In"
+            )}
+          </Button>
+        </form>
+      </div>
 
-      <div className="relative py-4">
+      <div className="relative py-0">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
@@ -260,7 +258,7 @@ export function SignInScreen() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div>
         {isMounted &&
           ENV.GOOGLE_CLIENT_ID &&
           ENV.GOOGLE_CLIENT_ID.trim() !== "" && (

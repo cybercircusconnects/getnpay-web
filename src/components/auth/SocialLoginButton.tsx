@@ -67,7 +67,7 @@ export function SocialLoginButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full cursor-pointer flex items-center justify-center gap-2 border-border bg-background hover:bg-accent disabled:cursor-not-allowed",
+        "w-full h-11 rounded cursor-pointer flex items-center justify-center gap-2 border-border bg-background hover:bg-accent disabled:cursor-not-allowed",
         className
       )}
     >

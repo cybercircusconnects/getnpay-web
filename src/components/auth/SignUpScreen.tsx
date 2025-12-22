@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import { signUpSchema, type SignUpFormValues } from "@/lib/validations";
 import { toast } from "sonner";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
-import { initializeGoogleAuth } from "@/lib/utils/google-auth";
+import { GoogleLogin } from "@react-oauth/google";
 
 export function SignUpScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -98,27 +98,42 @@ export function SignUpScreen() {
     }
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignInSuccess = async (credentialResponse: {
+    credential?: string;
+  }) => {
     setIsGoogleLoading(true);
-    initializeGoogleAuth(
-      async (idToken) => {
-        try {
-          const result = await authApi.signInWithGoogle({ idToken });
-          apiClient.setToken(result.accessToken);
-          setUser(result.user);
-          toast.success("Signed in successfully");
-          router.push("/dashboard");
-        } catch (error) {
-          toast.error(getErrorMessage(error, "Google sign in failed"));
-        } finally {
-          setIsGoogleLoading(false);
-        }
-      },
-      (error) => {
-        toast.error(error);
-        setIsGoogleLoading(false);
+    try {
+      if (!credentialResponse.credential) {
+        throw new Error("Failed to get Google ID token");
       }
-    );
+
+      const result = await authApi.signInWithGoogle({
+        idToken: credentialResponse.credential,
+      });
+      apiClient.setToken(result.accessToken);
+      setUser(result.user);
+      toast.success("Signed in successfully");
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(getErrorMessage(error, "Google sign in failed"));
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleSignInError = () => {
+    toast.error("Google sign in failed");
+    setIsGoogleLoading(false);
+  };
+
+  const googleLoginRef = useRef<HTMLDivElement>(null);
+
+  const handleGoogleSignIn = () => {
+    const hiddenButton =
+      googleLoginRef.current?.querySelector<HTMLElement>('div[role="button"]');
+    if (hiddenButton) {
+      hiddenButton.click();
+    }
   };
 
   return (
@@ -237,7 +252,7 @@ export function SignUpScreen() {
 
         <Button
           type="submit"
-          className="w-full cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
+          className="w-full h-11 rounded cursor-pointer bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed"
           disabled={isLoading || isGoogleLoading}
         >
           {isLoading ? (
@@ -268,6 +283,18 @@ export function SignUpScreen() {
       </div>
 
       <div className="space-y-4">
+        <div ref={googleLoginRef} className="hidden">
+          <GoogleLogin
+            onSuccess={handleGoogleSignInSuccess}
+            onError={handleGoogleSignInError}
+            useOneTap={false}
+            theme="outline"
+            size="large"
+            text="signin_with"
+            shape="rectangular"
+            logo_alignment="left"
+          />
+        </div>
         <SocialLoginButton
           provider="google"
           onClick={handleGoogleSignIn}

@@ -261,24 +261,26 @@ export function SignInScreen() {
       </div>
 
       <div className="space-y-4">
-        {isMounted && (
-          <div ref={googleLoginRef} className="hidden">
-            <GoogleLogin
-              onSuccess={handleGoogleSignInSuccess}
-              onError={handleGoogleSignInError}
-              useOneTap={false}
-              theme="outline"
-              size="large"
-              text="signin_with"
-              shape="rectangular"
-              logo_alignment="left"
-            />
-          </div>
-        )}
+        {isMounted &&
+          ENV.GOOGLE_CLIENT_ID &&
+          ENV.GOOGLE_CLIENT_ID.trim() !== "" && (
+            <div ref={googleLoginRef} className="hidden">
+              <GoogleLogin
+                onSuccess={handleGoogleSignInSuccess}
+                onError={handleGoogleSignInError}
+                useOneTap={false}
+                theme="outline"
+                size="large"
+                text="signin_with"
+                shape="rectangular"
+                logo_alignment="left"
+              />
+            </div>
+          )}
         <SocialLoginButton
           provider="google"
           onClick={handleGoogleSignIn}
-          disabled={isLoading || isGoogleLoading}
+          disabled={isLoading || isGoogleLoading || !isMounted}
         />
       </div>
     </div>

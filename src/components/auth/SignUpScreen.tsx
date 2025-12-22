@@ -16,7 +16,12 @@ import { signUpSchema, type SignUpFormValues } from "@/lib/validations";
 import { toast } from "sonner";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
-import { GoogleLogin } from "@react-oauth/google";
+import dynamic from "next/dynamic";
+
+const GoogleLogin = dynamic(
+  () => import("@react-oauth/google").then((mod) => mod.GoogleLogin),
+  { ssr: false }
+);
 
 export function SignUpScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

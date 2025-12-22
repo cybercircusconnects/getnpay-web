@@ -19,7 +19,12 @@ import { apiClient } from "@/lib/api/client";
 import { signInSchema, type SignInFormValues } from "@/lib/validations";
 import { toast } from "sonner";
 import { Mail, Lock, Eye, EyeOff, Loader2, Check } from "lucide-react";
-import { GoogleLogin } from "@react-oauth/google";
+import dynamic from "next/dynamic";
+
+const GoogleLogin = dynamic(
+  () => import("@react-oauth/google").then((mod) => mod.GoogleLogin),
+  { ssr: false }
+);
 
 export function SignInScreen() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

@@ -29,6 +29,12 @@ export const signUpSchema = z.object({
       (val) => STRONG_PASSWORD_REGEX.test(val),
       { message: "Use uppercase, lowercase, number, and symbol" }
     ),
+  phone: z.string()
+    .min(1, "Phone number is required")
+    .refine(
+      (val) => /^\+[1-9]\d{1,14}$/.test(val),
+      { message: "Please enter a valid phone number" }
+    ),
 })
 
 export const forgotPasswordSchema = z.object({

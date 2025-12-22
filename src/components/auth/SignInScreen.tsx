@@ -90,9 +90,6 @@ export function SignInScreen() {
     )
   }
 
-  const handleEmailLogin = () => {
-    router.push("/email-login")
-  }
 
   return (
     <div className="w-full space-y-8">
@@ -206,11 +203,6 @@ export function SignInScreen() {
         <SocialLoginButton
           provider="google"
           onClick={handleGoogleSignIn}
-          disabled={isLoading || isGoogleLoading}
-        />
-        <SocialLoginButton
-          provider="email"
-          onClick={handleEmailLogin}
           disabled={isLoading || isGoogleLoading}
         />
       </div>

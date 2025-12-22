@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { OutlinedInput } from "@/components/ui/outlined-input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { AuthSwitchLink } from "@/components/auth/AuthSwitchLink";
 import { SocialLoginButton } from "@/components/auth/SocialLoginButton";
 import { authApi, getErrorMessage } from "@/lib/api/auth";
@@ -28,6 +29,9 @@ export function SignUpScreen() {
     handleSubmit,
     formState: { errors, touchedFields },
     watch,
+    setValue,
+    setError,
+    clearErrors,
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     mode: "onChange",
@@ -35,6 +39,7 @@ export function SignUpScreen() {
       name: "",
       email: "",
       password: "",
+      phone: "",
     },
   });
 
@@ -43,10 +48,30 @@ export function SignUpScreen() {
   const onSubmit = async (values: SignUpFormValues) => {
     setIsLoading(true);
     try {
+      if (!values.phone || !/^\+[1-9]\d{1,14}$/.test(values.phone)) {
+        setError("phone", {
+          type: "manual",
+          message: "Please enter a valid phone number",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const phoneLength = values.phone.replace(/\+/, "").length;
+      if (phoneLength < 7 || phoneLength > 15) {
+        setError("phone", {
+          type: "manual",
+          message: "Phone number must be 7-15 digits total",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       const result = await authApi.signUp({
         name: values.name,
         email: values.email,
         password: values.password,
+        phone: values.phone,
       });
 
       apiClient.setToken(result.accessToken);
@@ -135,6 +160,37 @@ export function SignUpScreen() {
             }
             leftIcon={<Mail className="h-5 w-5 text-gray-400" />}
             {...register("email")}
+          />
+        </div>
+
+        <div>
+          <PhoneInput
+            value={watch("phone") || ""}
+            onChange={(value) => {
+              setValue("phone", value || "", { shouldValidate: true });
+              clearErrors("phone");
+            }}
+            onBlur={() => {
+              if (!watch("phone")) {
+                setError("phone", {
+                  type: "manual",
+                  message: "Phone number is required",
+                });
+              }
+            }}
+            onFocus={() => {
+              clearErrors("phone");
+            }}
+            label="Phone Number"
+            placeholder="Enter your phone number"
+            error={!!errors.phone}
+            touched={touchedFields.phone}
+            required={true}
+            errorMessage={
+              touchedFields.phone && errors.phone
+                ? errors.phone.message
+                : undefined
+            }
           />
         </div>
 

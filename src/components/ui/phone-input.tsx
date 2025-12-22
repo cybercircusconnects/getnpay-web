@@ -3,21 +3,8 @@
 import * as React from "react";
 import PhoneInputLib from "react-phone-number-input";
 import { cn } from "@/lib/utils";
+import type { PhoneInputProps } from "@/types/components";
 import "react-phone-number-input/style.css";
-
-interface PhoneInputProps {
-  value: string;
-  onChange: (value: string | undefined) => void;
-  onBlur?: () => void;
-  onFocus?: () => void;
-  label?: string;
-  error?: boolean;
-  touched?: boolean;
-  errorMessage?: string;
-  required?: boolean;
-  placeholder?: string;
-  className?: string;
-}
 
 const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
   (

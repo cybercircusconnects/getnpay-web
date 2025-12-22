@@ -2,16 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-interface OutlinedInputProps extends React.ComponentProps<"input"> {
-  label?: string;
-  error?: boolean;
-  touched?: boolean;
-  errorMessage?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  required?: boolean;
-}
+import type { OutlinedInputProps } from "@/types/components";
 
 const OutlinedInput = React.forwardRef<HTMLInputElement, OutlinedInputProps>(
   (

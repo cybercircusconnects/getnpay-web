@@ -3,14 +3,7 @@
 import { useRef, useState, useEffect, type KeyboardEvent } from "react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-
-interface OTPInputProps {
-  length?: number
-  value: string
-  onChange: (code: string) => void
-  error?: string
-  disabled?: boolean
-}
+import type { OTPInputProps } from "@/types/components"
 
 export function OTPInput({
   length = 6,

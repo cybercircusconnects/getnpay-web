@@ -17,6 +17,7 @@ import {
 } from "@/lib/api/auth";
 import { apiClient } from "@/lib/api/client";
 import { signInSchema, type SignInFormValues } from "@/lib/validations";
+import { ENV } from "@/lib/config/env";
 import { toast } from "sonner";
 import { Mail, Lock, Eye, EyeOff, Loader2, Check } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -126,6 +127,7 @@ export function SignInScreen() {
   const googleLoginRef = useRef<HTMLDivElement>(null);
 
   const handleGoogleSignIn = () => {
+    if (!isMounted) return;
     const hiddenButton =
       googleLoginRef.current?.querySelector<HTMLElement>('div[role="button"]');
     if (hiddenButton) {

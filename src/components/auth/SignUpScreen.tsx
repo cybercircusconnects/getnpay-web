@@ -13,6 +13,7 @@ import { SocialLoginButton } from "@/components/auth/SocialLoginButton";
 import { authApi, getErrorMessage } from "@/lib/api/auth";
 import { apiClient } from "@/lib/api/client";
 import { signUpSchema, type SignUpFormValues } from "@/lib/validations";
+import { ENV } from "@/lib/config/env";
 import { toast } from "sonner";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { Mail, Lock, User, Eye, EyeOff, Loader2 } from "lucide-react";
@@ -96,9 +97,11 @@ export function SignUpScreen() {
 
       apiClient.setToken(result.accessToken);
       toast.success("Account created. Verify your email");
-      
+
       router.push(
-        `/verify-email-otp?email=${encodeURIComponent(values.email)}&isNewUser=true&from=signup`
+        `/verify-email-otp?email=${encodeURIComponent(
+          values.email
+        )}&isNewUser=true&from=signup`
       );
     } catch (error) {
       const message = getErrorMessage(error, "Sign up failed");
@@ -123,7 +126,7 @@ export function SignUpScreen() {
       apiClient.setToken(result.accessToken);
       setUser(result.user);
       toast.success("Signed in successfully");
-      
+
       if (!result.user.role) {
         router.push("/select-role");
       } else {
@@ -144,6 +147,7 @@ export function SignUpScreen() {
   const googleLoginRef = useRef<HTMLDivElement>(null);
 
   const handleGoogleSignIn = () => {
+    if (!isMounted) return;
     const hiddenButton =
       googleLoginRef.current?.querySelector<HTMLElement>('div[role="button"]');
     if (hiddenButton) {
@@ -298,24 +302,26 @@ export function SignUpScreen() {
       </div>
 
       <div className="space-y-4">
-        {isMounted && (
-          <div ref={googleLoginRef} className="hidden">
-            <GoogleLogin
-              onSuccess={handleGoogleSignInSuccess}
-              onError={handleGoogleSignInError}
-              useOneTap={false}
-              theme="outline"
-              size="large"
-              text="signin_with"
-              shape="rectangular"
-              logo_alignment="left"
-            />
-          </div>
-        )}
+        {isMounted &&
+          ENV.GOOGLE_CLIENT_ID &&
+          ENV.GOOGLE_CLIENT_ID.trim() !== "" && (
+            <div ref={googleLoginRef} className="hidden">
+              <GoogleLogin
+                onSuccess={handleGoogleSignInSuccess}
+                onError={handleGoogleSignInError}
+                useOneTap={false}
+                theme="outline"
+                size="large"
+                text="signin_with"
+                shape="rectangular"
+                logo_alignment="left"
+              />
+            </div>
+          )}
         <SocialLoginButton
           provider="google"
           onClick={handleGoogleSignIn}
-          disabled={isLoading || isGoogleLoading}
+          disabled={isLoading || isGoogleLoading || !isMounted}
         />
       </div>
     </div>
